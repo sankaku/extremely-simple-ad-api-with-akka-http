@@ -17,3 +17,10 @@ lazy val root = (project in file("."))
       "com.typesafe.akka" %% "akka-http"        % AkkaHttpVersion,
     )
   )
+
+// Wartremover settings
+Compile / wartremoverWarnings ++= Warts.allBut(
+  Wart.DefaultArguments,
+  Wart.ToString,
+  Wart.ImplicitParameter,
+)

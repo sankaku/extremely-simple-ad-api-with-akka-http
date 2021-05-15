@@ -12,10 +12,11 @@ lazy val root = (project in file("."))
   .settings(
     name := "extremely-simple-ad-api-with-akka-http",
     libraryDependencies ++= Seq(
-      "com.typesafe.akka" %% "akka-actor-typed" % AkkaVersion,
-      "com.typesafe.akka" %% "akka-stream"      % AkkaVersion,
-      "com.typesafe.akka" %% "akka-http"        % AkkaHttpVersion,
+      "com.typesafe.akka" %% "akka-actor-typed"     % AkkaVersion,
+      "com.typesafe.akka" %% "akka-stream"          % AkkaVersion,
+      "com.typesafe.akka" %% "akka-http"            % AkkaHttpVersion,
       "com.typesafe.akka" %% "akka-http-spray-json" % AkkaHttpVersion,
+      "com.google.inject"  % "guice"                % "5.0.1",
     )
   )
 

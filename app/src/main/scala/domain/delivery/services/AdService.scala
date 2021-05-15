@@ -8,7 +8,7 @@ import domain.delivery.values.DeliveryResponse
 import scala.concurrent.Future
 
 trait AdService {
-  def delivery(): Future[Either[CustomError, DeliveryResponse]]
+  def delivery(num: Int = 5): Future[Either[DeliveryResponse, DeliveryResponse]]
 
-  def cv(id: AdId): Future[Either[CustomError, CvResponse]]
+  def cv(id: AdId): Future[Either[CvResponse, CvResponse]]
 }

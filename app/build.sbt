@@ -15,6 +15,7 @@ lazy val root = (project in file("."))
       "com.typesafe.akka" %% "akka-actor-typed" % AkkaVersion,
       "com.typesafe.akka" %% "akka-stream"      % AkkaVersion,
       "com.typesafe.akka" %% "akka-http"        % AkkaHttpVersion,
+      "com.typesafe.akka" %% "akka-http-spray-json" % AkkaHttpVersion,
     )
   )
 

@@ -4,8 +4,10 @@ import domain.common.values.CustomError
 import domain.delivery.repositories.AdRepository
 import domain.delivery.values.AdId
 
+import javax.inject.Singleton
 import scala.concurrent.Future
 
+@Singleton
 class AdDao extends AdRepositoryImpl
 
 class AdRepositoryImpl extends AdRepository {

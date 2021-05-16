@@ -1,23 +1,37 @@
 package domain.common.values
 
-sealed trait CustomError
+sealed trait CustomError {
+  def message: String
+}
+
+sealed trait ServerError extends CustomError
+
+sealed trait ClientError extends CustomError
 
 final case class NotFoundError(
-  message: String)
-    extends CustomError
+  override val message: String)
+    extends ClientError
 
 final case class DatabaseConnectionError(
-  message: String)
-    extends CustomError
+  override val message: String)
+    extends ServerError
 
 final case class DuplicatedCvError(
-  message: String)
-    extends CustomError
+  override val message: String)
+    extends ClientError
 
 final case class UndeliveredCvError(
-  message: String)
-    extends CustomError
+  override val message: String)
+    extends ClientError
 
-final case class UnknownError(
-  message: String)
-    extends CustomError
+final case class InvalidInputError(
+  override val message: String)
+    extends ClientError
+
+final case class UnknownServerError(
+  override val message: String)
+    extends ServerError
+
+final case class UnknownClientError(
+  override val message: String)
+    extends ClientError

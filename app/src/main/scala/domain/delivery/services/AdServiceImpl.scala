@@ -1,5 +1,6 @@
 package domain.delivery.services
 import domain.common.values.CustomError
+import domain.common.values.InvalidInputError
 import domain.delivery.repositories.AdRepository
 import domain.delivery.values._
 
@@ -25,7 +26,7 @@ class AdServiceImpl @Inject() (
           Left(
             DeliveryResponse(
               success = false,
-              errors = Seq(s"num must be a number. num: $numString")
+              errors = Seq(InvalidInputError(s"num must be a number. num: $numString"))
             )
           )
         )
@@ -46,7 +47,7 @@ class AdServiceImpl @Inject() (
     eitherAdIds.fold(
       e =>
         Left[DeliveryResponse, DeliveryResponse](
-          DeliveryResponse(success = false, errors = Seq(e.toString))
+          DeliveryResponse(success = false, errors = Seq(e))
         ),
       adIds =>
         Right[DeliveryResponse, DeliveryResponse](
@@ -59,14 +60,17 @@ class AdServiceImpl @Inject() (
   override def cv(idString: String): Future[Either[CvResponse, CvResponse]] =
     Try(AdId(UUID.fromString(idString))) match {
       case Success(adId) => cvAction(adId)
-      case _             => Future.successful(Left(CvResponse(success = false, errors = Seq(s"Invalid id: ${idString.toString}"))))
+      case _ =>
+        Future.successful(
+          Left(CvResponse(success = false, errors = Seq(InvalidInputError(s"Invalid id: ${idString.toString}"))))
+        )
     }
 
   private[services] def cvAction(adId: AdId): Future[Either[CvResponse, CvResponse]] =
     for {
       result <- adRepository.update(adId)
     } yield result.fold(
-      e => Left[CvResponse, CvResponse](CvResponse(success = false, errors = Seq(e.toString))),
+      e => Left[CvResponse, CvResponse](CvResponse(success = false, errors = Seq(e))),
       _ => Right[CvResponse, CvResponse](CvResponse(success = true, errors = Nil, message = CvMessage(Some(adId))))
     )
 }

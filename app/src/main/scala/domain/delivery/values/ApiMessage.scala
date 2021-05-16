@@ -1,9 +1,11 @@
 package domain.delivery.values
 
+import domain.delivery.entities.Ad
+
 sealed trait ApiMessage
 
 final case class DeliveryMessage(
-  ads: Seq[AdId])
+  ads: Seq[Ad])
     extends ApiMessage
 
 final case class CvMessage(

@@ -1,6 +1,7 @@
 package domain.delivery.services
 import domain.common.values.CustomError
 import domain.common.values.InvalidInputError
+import domain.delivery.entities.Ad
 import domain.delivery.repositories.AdRepository
 import domain.delivery.values._
 
@@ -37,21 +38,21 @@ class AdServiceImpl @Inject() (
   private[services] def deliverAction(num: Int): Future[Either[DeliveryResponse, DeliveryResponse]] = for {
     results <- Future.sequence((1 to num).map(_ => adRepository.create()))
   } yield {
-    val eitherAdIds = results
-      .foldLeft(Right[CustomError, List[AdId]](Nil): Either[CustomError, List[AdId]]) { (acc, r) =>
+    val eitherAds = results
+      .foldLeft(Right[CustomError, List[Ad]](Nil): Either[CustomError, List[Ad]]) { (acc, r) =>
         for {
           rR   <- r
           accR <- acc
         } yield rR :: accR
       }
-    eitherAdIds.fold(
+    eitherAds.fold(
       e =>
         Left[DeliveryResponse, DeliveryResponse](
           DeliveryResponse(success = false, errors = Seq(e))
         ),
-      adIds =>
+      ads =>
         Right[DeliveryResponse, DeliveryResponse](
-          DeliveryResponse(success = true, errors = Nil, message = DeliveryMessage(adIds))
+          DeliveryResponse(success = true, errors = Nil, message = DeliveryMessage(ads))
         )
     )
 

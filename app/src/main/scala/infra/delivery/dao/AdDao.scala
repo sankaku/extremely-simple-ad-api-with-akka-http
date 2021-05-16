@@ -5,6 +5,7 @@ import domain.common.values.CustomError
 import domain.common.values.DatabaseConnectionError
 import domain.common.values.DuplicatedCvError
 import domain.common.values.UndeliveredCvError
+import domain.delivery.entities.Ad
 import domain.delivery.repositories.AdRepository
 import domain.delivery.values.AdId
 import redis.RedisClientPool
@@ -26,16 +27,16 @@ class AdRepositoryImpl @Inject() (implicit ec: ExecutionContext) extends AdRepos
   val FieldName     = "cv"
   val BeforeCvValue = "false"
   val AfterCvValue  = "true"
-  val KeyPrefix = "id:"
+  val KeyPrefix     = "id:"
 
-  override def create(): Future[Either[CustomError, AdId]] = {
-    val adId = AdId.create()
-    val key  = getKey(adId)
+  override def create(): Future[Either[CustomError, Ad]] = {
+    val ad  = Ad(AdId.create())
+    val key = getKey(ad.id)
     pool
       .hset(key, FieldName, BeforeCvValue)
-      .map(_ => Right[CustomError, AdId](adId))
+      .map(_ => Right[CustomError, Ad](ad))
       .recover { case e =>
-        Left[CustomError, AdId](DatabaseConnectionError(message = e.toString))
+        Left[CustomError, Ad](DatabaseConnectionError(message = e.toString))
       }
   }
 

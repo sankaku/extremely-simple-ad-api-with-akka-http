@@ -50,9 +50,14 @@ class MainController @Inject() (
         }
       },
       path("deliver") {
-        get {
-          complete(adService.delivery())
+        (get & parameter("num".optional)) { num =>
+          complete(adService.deliver(num))
         }
-      }
+      },
+      path("cv") {
+        (post & parameter("id")) { id =>
+          complete(adService.cv(id))
+        }
+      },
     )
 }

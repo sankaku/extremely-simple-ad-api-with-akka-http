@@ -11,10 +11,10 @@ import java.util.UUID
 
 trait AdIdMarshaller extends DefaultJsonProtocol {
   implicit object AdIdJsonFormat extends RootJsonFormat[AdId] {
-    def write(adId: AdId): JsValue = JsString(adId.id.toString)
+    def write(adId: AdId): JsValue = JsString(adId.value.toString)
 
     def read(jsValue: JsValue): AdId = jsValue match {
-      case JsString(id) => AdId(id = UUID.fromString(id))
+      case JsString(id) => AdId(value = UUID.fromString(id))
       case _            => deserializationError(s"Can't unmarshall jsValue: ${jsValue.toString}")
     }
 

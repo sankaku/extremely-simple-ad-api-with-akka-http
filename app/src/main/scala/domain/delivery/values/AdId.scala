@@ -2,8 +2,8 @@ package domain.delivery.values
 
 import java.util.UUID
 
-final case class AdId(id: UUID)
+final case class AdId(value: UUID)
 
 object AdId {
-  def create(): AdId = AdId(id = UUID.randomUUID())
+  def create(): AdId = AdId(value = UUID.randomUUID())
 }

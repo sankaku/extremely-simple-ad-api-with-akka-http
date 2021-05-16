@@ -26,6 +26,7 @@ class AdRepositoryImpl @Inject() (implicit ec: ExecutionContext) extends AdRepos
   val FieldName     = "cv"
   val BeforeCvValue = "false"
   val AfterCvValue  = "true"
+  val KeyPrefix = "id:"
 
   override def create(): Future[Either[CustomError, AdId]] = {
     val adId = AdId.create()
@@ -60,5 +61,5 @@ class AdRepositoryImpl @Inject() (implicit ec: ExecutionContext) extends AdRepos
     }
   }
 
-  private def getKey(adId: AdId): String = adId.value.toString
+  private def getKey(adId: AdId): String = s"${KeyPrefix}${adId.value.toString}"
 }

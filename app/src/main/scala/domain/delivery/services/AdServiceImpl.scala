@@ -35,7 +35,7 @@ class AdServiceImpl @Inject() (
   }
 
   private[services] def deliverAction(num: Int): Future[Either[DeliveryResponse, DeliveryResponse]] = for {
-    results <- Future.sequence((0 to num).map(_ => adRepository.create()))
+    results <- Future.sequence((1 to num).map(_ => adRepository.create()))
   } yield {
     val eitherAdIds = results
       .foldLeft(Right[CustomError, List[AdId]](Nil): Either[CustomError, List[AdId]]) { (acc, r) =>

@@ -1,0 +1,7 @@
+version: "3"
+services:
+  db:
+    image: redis:6.2.3-alpine3.13
+    container_name: extremely-simple-ad-api-with-akka-http-db-c
+    ports:
+      - "6379:6379"
